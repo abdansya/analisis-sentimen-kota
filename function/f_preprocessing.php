@@ -1,6 +1,8 @@
 <?php
     require_once 'koneksi.php';
 	set_time_limit(0);
+    
+
 	// fungsi case folding
     
     function input($tweet){
@@ -22,19 +24,54 @@
     // cleansing
     function cleansing($tweet){
         // $tweet = iconv("UTF-8","ISO-8859-1//IGNORE", $tweet);
+        // 
+        // menghapus pic
+        $tweet = explode(' ', $tweet);
+        $tweet_hasil = [];
+        foreach ($tweet as $tweet_kata) {
+          // echo $tweet_kata." ";
+          if ($tweet = preg_match('/pic.twitter.com/', $tweet_kata)) {
+            $tweet_kata = "";
+          } else {
+            array_push($tweet_hasil, $tweet_kata);
+          }
+        }
+        // $tweet = preg_replace('/pic.twitter.com(?=g) /', '', $tweet);
+        $tweet = implode(' ', $tweet_hasil);
+        
+        $tweet = str_replace("?", " ", $tweet);
+        $tweet = str_replace("??", " ", $tweet);
+        $tweet = str_replace("???", " ", $tweet);
+        $tweet = str_replace(".", " ", $tweet);
+        $tweet = str_replace(",", " ", $tweet);
+        $tweet = str_replace(",,", " ", $tweet);
+        $tweet = str_replace("..", " ", $tweet);
+        $tweet = str_replace("...", " ", $tweet);
+        $tweet = str_replace("…", " ", $tweet);
+        $tweet = str_replace(":", " ", $tweet);
+
+        //angka
+        $tweet = explode(' ', $tweet);
+        $tweet_hasil = [];
+        foreach ($tweet as $tweet_kata) {
+          // echo $tweet_kata." ";
+          if ($tweet = preg_match('/[0-9]/', $tweet_kata)) {
+            $tweet_kata = "";
+          } else {
+            array_push($tweet_hasil, $tweet_kata);
+          }
+        }
+        // $tweet = preg_replace('/pic.twitter.com(?=g) /', '', $tweet);
+        $tweet = implode(' ', $tweet_hasil);
         //mention
-        $tweet = preg_replace('/@[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i','', $tweet);
+        $tweet = preg_replace('/@[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i',' ', $tweet);
         //hashtag
-        $tweet = preg_replace('/#[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i','', $tweet);
+        $tweet = preg_replace('/#[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i',' ', $tweet);
         // link
-        $tweet = preg_replace('/\b(https?|ftp|file|http):\/\/[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i','', $tweet);
+        $tweet = preg_replace('/\b(https?|ftp|file|http):\/\/[-A-Z0-9+&@#\/%?=~_|$!:,.;]*[A-Z0-9+&@#\/%=~_|$]/i',' ', $tweet);
         $tweet = preg_replace('/rt | â€¦/i', '', $tweet);
         //hapus http
-        $tweet = str_replace(".", "", $tweet);
-        $tweet = str_replace("..", "", $tweet);
-        $tweet = str_replace("...", "", $tweet);
-        $tweet = str_replace("…", "", $tweet);
-        $tweet = str_replace(":", "", $tweet);
+        
         // $tweet = str_replace(" rt", "", $tweet);
         // $tweet = str_replace(" rt ", "", $tweet);
         // $tweet = str_replace("rt ", "", $tweet);
@@ -62,8 +99,8 @@
 
     // CONVERT EMOTICON
     function convert_emoticon($tweet){
-        $esenang = array(">:]",":-)",":)",":o)",":]",":3",":c)",":>","=]","8)","=)",":}",":>)");
-        $esedih = array(">:[",":-(",":(",":'(",":-c",":c",":-<",":-[",":[",":{",">.>","<.<",">.<");
+        $esenang = array(">:]",":-)",":)",":o)",":]",":3",":c)",":>","=]","8)","=)",":}",":>)",":D",":-D");
+        $esedih = array(">:[",":-(",":(",":'(",":-c",":c",":-<",":-[",":[",":{",">.>","<.<",">.<",":/");
 
         //regex senang
         foreach ($esenang as $item) 
@@ -164,17 +201,50 @@
     }
 
     function stemming($teks){
-        include_once 'f_stemmingnazief.php';
-        $hasil_kata = [];
-        $teks = explode(" ", $teks);
+        // include_once 'f_stemmingnazief.php';
+        // $hasil_kata = [];
+        // $teks = explode(" ", $teks);
         
-        foreach ($teks as $teks) {
-            //$hasil = hapusakhiran(hapusawalan2(hapusawalan1(hapuspp(hapuspartikel($teks)))));
-            $hasil = stemmingnazief($teks);
-            array_push($hasil_kata, $hasil);
-        }
+        // foreach ($teks as $teks) {
+        //     //$hasil = hapusakhiran(hapusawalan2(hapusawalan1(hapuspp(hapuspartikel($teks)))));
+        //     $hasil = stemmingnazief($teks);
+        //     array_push($hasil_kata, $hasil);
+        // }
 
-        $hasil = implode(" ",$hasil_kata);
-        return $hasil = trim(preg_replace('/\s+/', ' ', $hasil));
+        // $hasil = implode(" ",$hasil_kata);
+        // return $hasil = trim(preg_replace('/\s+/', ' ', $hasil));
 
+        
+        
+
+        // create stemmer
+        // cukup dijalankan sekali saja, biasanya didaftarkan di service container
+        $stemmerFactory = new \Sastrawi\Stemmer\StemmerFactory();
+        $stemmer  = $stemmerFactory->createStemmer();
+
+        // stem
+        $sentence = $teks;
+        $output   = $stemmer->stem($sentence);
+        return $output;
     }
+    
+    function trimed($txt){
+      $txt = trim($txt);
+      while( strpos($txt, '  ') ){
+        $txt = str_replace('  ', ' ', $txt);
+      }
+      return $txt;
+    }
+
+
+    // function preprocessing_ig($tweet) {
+    //   $kata_tweet = explode(' ', $tweet);
+    //   foreach ($kata_tweet as $value) {
+        
+    //   }
+    //   $query = "SELECT `id_kata`, `kata` FROM `data_training_kata` ORDER BY `data_training_kata`.`bobot_ig` DESC LIMIT 3600";
+    //   $result =  mysqli_query($con, $query);
+    //   while ($row = mysqli_fetch_array($result)) {
+        
+    //   }
+    // }
