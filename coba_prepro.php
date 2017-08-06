@@ -7,14 +7,14 @@
 	<link rel="stylesheet" href="">
 </head>
 <body>
-<?php 
+<?php
 	require_once 'function/koneksi.php';
 	require_once 'function/f_preprocessing.php';
 	require_once __DIR__ . '/vendor/autoload.php';
 
 	$data_tweet = [];
 	if (isset($_GET['proses'])) {
-		
+
 			$p_tweet = "@TokopediaCare topup saldo min. blm masukpic.twitter.com/ZIn93zXVSm";
 			echo $p_tweet = convert_emoticon($p_tweet);
 			echo "<br>";
@@ -28,12 +28,12 @@
 			echo "<br>";
 			echo $p_tweet = normalization($p_tweet);
 			echo "<br>";
-			echo $p_tweet = stemming($p_tweet); 
+			echo $p_tweet = stemming($p_tweet);
 			echo "<br>";
 			echo "Hasil : <b>".($p_tweet = stopword_removal($p_tweet))."</b>";
 			$p_tweet = trimed($p_tweet);
 			echo "<br>";
-		
+
 	}
 
 

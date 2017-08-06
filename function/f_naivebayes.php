@@ -7,7 +7,7 @@ class Naive_bayes extends Koneksi {
 
 	public function get_jml_kata_positif() {
 		$i = 0;
-		$query = $this->con->query("SELECT * FROM `data_training_tes` WHERE `sentimen` = 'P'");
+		$query = $this->con->query("SELECT `id_training`, `tweet_preprocessing` FROM `data_training` WHERE `sentimen` = 'P'");
 		while ($row = $query->fetch_array()) {
 			$kata = $row['tweet_preprocessing'];
 			$kata = explode(' ', $kata);
@@ -20,9 +20,9 @@ class Naive_bayes extends Koneksi {
 
 	public function get_jml_kata_negatif() {
 		$i = 0;
-		$query = $this->con->query("SELECT * FROM `data_training_tes` WHERE `sentimen` = 'N'");
+		$query = $this->con->query("SELECT `id_training`, `tweet_preprocessing` FROM `data_training` WHERE `sentimen` = 'N'");
 		while ($row = $query->fetch_array()) {
-			$kata = $row['tweet_preprocessing_ig'];
+			$kata = $row['tweet_preprocessing'];
 			$kata = explode(' ', $kata);
 			foreach ($kata as $key) {
 				$i += 1;
@@ -32,22 +32,22 @@ class Naive_bayes extends Koneksi {
 	}
 
 	public function get_jml_semua_kata_unik()	{
-		$query = $this->con->query("SELECT count(id_kata) FROM data_training_kata_ig");
+		$query = $this->con->query("SELECT count(id_kata) FROM data_training_kata");
     $row = $query->fetch_row();
     $jumlah = $row['0'];
     return $jumlah;
 	}
 
 	public function set_probabilitas_kata_positif() {
-		$query = $this->con->query("SELECT `id_kata`, `kata` FROM `data_training_kata_ig` ORDER BY `id_kata` ASC");
+		$query = $this->con->query("SELECT `id_kata`, `kata` FROM `data_training_kata` ORDER BY `id_kata` ASC");
 		while ($row_kata = $query->fetch_array()) {
 			$ni = 0;
 			$n = $this->get_jml_kata_positif();
 			$kosakata = $this->get_jml_semua_kata_unik();
 
-			$query_dokumen = $this->con->query("SELECT `id_testing`, `tweet_preprocessing_ig` FROM `data_training_tes` WHERE `sentimen` = 'P' ORDER BY `id_testing` ASC");
+			$query_dokumen = $this->con->query("SELECT `id_training`, `tweet_preprocessing` FROM `data_training` WHERE `sentimen` = 'P' ORDER BY `id_training` ASC");
 			while ($row_dok = $query_dokumen->fetch_array()) {
-				$kata_dok = explode(' ',$row_dok['tweet_preprocessing_ig']);
+				$kata_dok = explode(' ',$row_dok['tweet_preprocessing']);
 				foreach ($kata_dok as $key) {
 					if ($row_kata['kata'] == $key) {
 						$ni += 1;
@@ -56,7 +56,7 @@ class Naive_bayes extends Koneksi {
 			}
 
 			$probabilitas_p = round(($ni+1)/($n+$kosakata),17);
-			$query_simpan = $this->con->query("UPDATE `data_training_kata_ig` SET `bobot_bayes_positif` = ".$probabilitas_p." WHERE `id_kata` = ".$row_kata['id_kata']."");
+			$query_simpan = $this->con->query("UPDATE `data_training_kata` SET `bobot_bayes_positif` = ".$probabilitas_p." WHERE `id_kata` = ".$row_kata['id_kata']."");
 			if ($query_simpan) {
 				echo $row_kata['id_kata']." => ";
 				echo $probabilitas_p;
@@ -67,15 +67,15 @@ class Naive_bayes extends Koneksi {
 	}
 
 	public function set_probabilitas_kata_negatif() {
-		$query = $this->con->query("SELECT `id_kata`, `kata` FROM `data_training_kata_ig` ORDER BY `id_kata` ASC");
+		$query = $this->con->query("SELECT `id_kata`, `kata` FROM `data_training_kata` ORDER BY `id_kata` ASC");
 		while ($row_kata = $query->fetch_array()) {
 			$ni = 0;
 			$n = $this->get_jml_kata_negatif();
 			$kosakata = $this->get_jml_semua_kata_unik();
 
-			$query_dokumen = $this->con->query("SELECT `id_testing`, `tweet_preprocessing_ig` FROM `data_training_tes` WHERE `sentimen` = 'N' ORDER BY `id_testing` ASC");
+			$query_dokumen = $this->con->query("SELECT `id_training`, `tweet_preprocessing` FROM `data_training` WHERE `sentimen` = 'N' ORDER BY `id_training` ASC");
 			while ($row_dok = $query_dokumen->fetch_array()) {
-				$kata_dok = explode(' ',$row_dok['tweet_preprocessing_ig']);
+				$kata_dok = explode(' ',$row_dok['tweet_preprocessing']);
 				foreach ($kata_dok as $key) {
 					if ($row_kata['kata'] == $key) {
 						$ni += 1;
@@ -84,7 +84,7 @@ class Naive_bayes extends Koneksi {
 			}
 
 			$probabilitas_p = round(($ni+1)/($n+$kosakata),17);
-			$query_simpan = $this->con->query("UPDATE `data_training_kata_ig` SET `bobot_bayes_negatif` = ".$probabilitas_p." WHERE `id_kata` = ".$row_kata['id_kata']."");
+			$query_simpan = $this->con->query("UPDATE `data_training_kata` SET `bobot_bayes_negatif` = ".$probabilitas_p." WHERE `id_kata` = ".$row_kata['id_kata']."");
 			if ($query_simpan) {
 				echo $row_kata['id_kata']." => ";
 				echo $probabilitas_p;
@@ -188,6 +188,8 @@ class Naive_bayes extends Koneksi {
 
 
 	public function klasifikasi_sentimen_ig($batas_ambang_ig) {
+		echo "Threshold = ".$batas_ambang_ig;
+		echo "<br><br>";
 		$query_dok = $this->con->query("SELECT `id_testing`, `tweet_preprocessing` FROM data_training_tes ORDER BY `id_testing`");
 		while ($row_dok = $query_dok->fetch_array()) {
 			$prob_kata_positif = [];
@@ -197,7 +199,7 @@ class Naive_bayes extends Koneksi {
 			foreach ($kata_hasil as $key) {
 				$prob_kata_positif[$key] = 1;
 				$prob_kata_negatif[$key] = 1;
-				$query_bobot_kata = $this->con->query("SELECT `id_kata`, `kata`, `bobot_bayes_positif`, `bobot_bayes_negatif` FROM `data_training_kata_ig` ORDER BY `bobot_ig` DESC LIMIT ".$batas_ambang_ig."");
+				$query_bobot_kata = $this->con->query("SELECT `id_kata`, `kata`, `bobot_bayes_positif`, `bobot_bayes_negatif` FROM `data_training_kata` ORDER BY `bobot_ig` DESC LIMIT ".$batas_ambang_ig."");
 				while ($row_kata = $query_bobot_kata->fetch_array()) {
 					if ($key == $row_kata['kata']) {
 						$prob_kata_positif[$key] = round($row_kata['bobot_bayes_positif'], 8);
@@ -232,7 +234,7 @@ class Naive_bayes extends Koneksi {
 			} else {
 				echo $row_dok['tweet_preprocessing'];
 				echo " Gagal";
-				echo "<hr>";
+				echo "string";
 			}
 
 			// echo $row_dok['tweet_preprocessing'];

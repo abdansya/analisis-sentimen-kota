@@ -1,16 +1,16 @@
 <?php 
 include_once "koneksi_procedural.php";
-
-function get_kata_dokumen() {
+set_time_limit(0);
+function pemisah_kata() {
 	GLOBAL $con;
-	$query = "SELECT `tweet_preprocessing_ig` FROM `data_training_tes`";
+	$query = "SELECT `tweet_preprocessing` FROM `data_training`";
 	$data = mysqli_query($con, $query);
 	
 	while ($dokumen = mysqli_fetch_array($data)) {
-		$kalimat = $dokumen['tweet_preprocessing_ig'];
+		$kalimat = $dokumen['tweet_preprocessing'];
 		$kal = explode(' ', $kalimat);
 		foreach ($kal as $kata) {
-			$query_kata = "INSERT INTO `data_training_kata_ig` (`kata`) VALUES ('".$kata."')";
+			$query_kata = "INSERT INTO `data_training_kata`(`kata`) VALUES ('".$kata."')";
 			$simpan =mysqli_query($con, $query_kata);
 			if ($simpan) {
 				echo $kata;echo "<br>";
@@ -19,7 +19,7 @@ function get_kata_dokumen() {
 	}
 }
 
-function get_frekuensi_kata() {
+function frekuensi_kata() {
 	GLOBAL $con;
 	$a=0;
 	$query_kata = "SELECT `id_kata`,`kata` FROM `data_training_kata`";
@@ -100,10 +100,8 @@ function urutkan_nomor() {
 
 
 
-
+// pemisah_kata();
 // frekuensi_kata();
 // total_kata();
 // urutkan_nomor();
-get_kata_dokumen();
-
 ?>

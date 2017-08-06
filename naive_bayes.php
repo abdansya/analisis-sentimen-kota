@@ -17,8 +17,8 @@ $nb = new Naive_bayes();
 // $nb->get_probabilitas_kategori_positf();
 // $nb->get_probabilitas_kategori_negatif();
 // $nb->klasifikasi_sentimen();
-// $nb->klasifikasi_sentimen_ig(3900);
-// $nb->akurasi();
+$nb->klasifikasi_sentimen_ig(2000);
+$nb->akurasi();
 
 
 
