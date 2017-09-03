@@ -1,0 +1,174 @@
+.bg-1 {
+  padding: 10px 20px;
+  background-image: url('../img/sosial-background.jpg');
+  background-size: 100%;
+  color: #ffffff;
+  height: 510px;
+}
+
+.bg-navigation {
+  padding: 5px 20px;
+  background-image: url('../img/sosial-background.jpg');
+  background-size: 100%;
+  color: #ffffff;
+  height: 90px;
+}
+
+.bg-1 form {
+  margin: 0 auto;
+  padding-top: 70px;
+  width: 350px;
+}
+
+#custom-search-input{
+    /*padding: 3px;*/
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    font-size: 19px;
+}
+
+.navigasi{
+  padding: 0px 20px;
+  background-image: url('../img/sosial-background.jpg');
+  background-size: 100%;
+  color: #ffffff;
+  height: 80px;
+}
+
+a.navbar-brand {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.navbar {
+  padding: 15px 10px;
+  border: 0;
+}
+
+.navbar a {
+  color: #ffffff;
+}
+
+.navbar-nav li a {
+  font-size: 15px;
+}
+
+.navbar-nav li a:hover {
+  color: rgb(73, 228, 255);
+  background-color: transparent;
+}
+
+.judul h1 {
+  padding-top: 20px;
+  font-size: 56px;
+  font-weight: bold;
+  font-family: 'Play', sans-serif;
+  text-shadow: 3px 3px black;
+}
+
+.bg-2 {
+  background-color: rgb(231, 231, 231);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.bg-2 img {
+  width: 100%;
+}
+
+#myChart {
+  width:100%;
+  height: 550px;
+}
+
+#myChartPie {
+  width:100%;
+  height: 500px;
+}
+
+.bg-3 {
+  background-color: #ffffff;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.bg-4 {
+  background-color: #e8e8ea;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.gambar {
+  width: 70%;
+}
+
+.footer {
+  background-color: #2F5E73;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+/*Admin template*/
+.menu-kiri{
+  margin: 0;
+  padding: 0;
+  background-color: #57889c;
+  position: fixed;
+  top: 80px;
+  height: 90vh;
+}
+
+.menu-kiri ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-kiri ul li a{
+  padding: 0px 10px;
+  display: block;
+  height: 50px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  /*border: 1px solid rgb(205, 234, 255);*/
+  line-height: 50px;
+}
+
+.main{
+  padding-top: 80px;
+}
+
+.main .input-group{
+  width: 20%;
+}

@@ -125,10 +125,10 @@ class Naive_bayes extends Koneksi {
 			foreach ($kata_hasil as $key) {
 				$query_bobot_kata = $this->con->query("SELECT `id_kata`, `kata`, `bobot_bayes_positif`, `bobot_bayes_negatif` FROM `data_training_kata` WHERE `kata` = '".$key."'");
 				while ($row_kata = $query_bobot_kata->fetch_array()) {
-					echo $row_kata['kata']." ";
+					// echo $row_kata['kata']." ";
 					if ($key == $row_kata['kata']) {
 						$prob_kata_positif[$key] = round($row_kata['bobot_bayes_positif'], 8);
-						$prob_kata_negatif[$key] = round($row_kata['bobot_bayes_negatif'], 8);	
+						$prob_kata_negatif[$key] = round($row_kata['bobot_bayes_negatif'], 8);
 					} else {
 						$prob_kata_positif[$key] = 1;
 						$prob_kata_negatif[$key] = 1;
@@ -156,13 +156,13 @@ class Naive_bayes extends Koneksi {
 
 			$query_simpan = $this->con->query("UPDATE `data_training_tes` SET `sentimen` = '".$sentimen."' WHERE `id_testing` = ".$row_dok['id_testing']."");
 			if ($query_simpan) {
-				echo $row_dok['tweet_preprocessing'];
-				echo " Berhasil";
-				echo "<hr>";
+				// echo $row_dok['tweet_preprocessing'];
+				// echo " Berhasil";
+				// echo "<hr>";
 			} else {
-				echo $row_dok['tweet_preprocessing'];
-				echo " Gagal";
-				echo "<hr>";
+				// echo $row_dok['tweet_preprocessing'];
+				// echo " Gagal";
+				// echo "<hr>";
 			}
 
 			// echo $row_dok['tweet_preprocessing'];
@@ -182,7 +182,7 @@ class Naive_bayes extends Koneksi {
 			// echo "Kategori : ".$sentimen;
 			// echo "<hr>";
 
-			
+
 		}
 	}
 
@@ -254,9 +254,66 @@ class Naive_bayes extends Koneksi {
 			// echo "Kategori : ".$sentimen;
 			// echo "<hr>";
 
-			
+
 		}
 	}
+
+	public function klasifikasi_sentimen_testing($tweet) {
+
+		$prob_kata_positif = [];
+		$prob_kata_negatif = [];
+		$kata_hasil = explode(' ', $tweet);
+		foreach ($kata_hasil as $key) {
+			$query_bobot_kata = $this->con->query("SELECT `id_kata`, `kata`, `bobot_bayes_positif`, `bobot_bayes_negatif` FROM `data_training_kata` WHERE `kata` = '".$key."'");
+			while ($row_kata = $query_bobot_kata->fetch_array()) {
+				echo $row_kata['kata']." ";
+				if ($key == $row_kata['kata']) {
+					$prob_kata_positif[$key] = round($row_kata['bobot_bayes_positif'], 8);
+					$prob_kata_negatif[$key] = round($row_kata['bobot_bayes_negatif'], 8);
+				} else {
+					$prob_kata_positif[$key] = 1;
+					$prob_kata_negatif[$key] = 1;
+				}
+			}
+		}
+
+		$prob_dokumen_positif = $this->get_probabilitas_kategori_positf();
+		foreach ($prob_kata_positif as $kata_prob => $value) {
+			$prob_dokumen_positif *= $value;
+		}
+
+		$prob_dokumen_negatif = $this->get_probabilitas_kategori_negatif();
+		foreach ($prob_kata_negatif as $kata_prob => $value) {
+			$prob_dokumen_negatif *= $value;
+		}
+
+		if ($prob_dokumen_positif > $prob_dokumen_negatif) {
+			$sentimen = "P";
+		} else if ($prob_dokumen_positif < $prob_dokumen_negatif) {
+			$sentimen = "N";
+		} else {
+			$sentimen = "Tidak ada";
+		}
+
+		return $sentimen;
+		// echo $row_dok['tweet_preprocessing'];
+		// echo "<br>";
+		// print_r($prob_kata_positif);
+		// echo "<br>";
+		// print_r($prob_kata_negatif);
+		// echo "<br>";
+		// echo "Prob psoitif = ".$this->get_probabilitas_kategori_positf();
+		// echo "<br>";
+		// echo "Prob negatif = ".$this->get_probabilitas_kategori_negatif();
+		// echo "<br>";
+		// echo "probabilitas tweet positif = ".$prob_dokumen_positif;
+		// echo "<br>";
+		// echo "probabilitas tweet negatif = ".$prob_dokumen_negatif;
+		// echo "<br>";
+		// echo "Kategori : ".$sentimen;
+		// echo "<hr>";
+	}
+
 
 
 	public function akurasi()	{
