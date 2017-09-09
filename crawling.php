@@ -13,7 +13,7 @@ $o_preprocessing = new Preprocessing();
 $o_naivebayes = new Naive_bayes();
 
 
-if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'craw') {
+if (isset($_GET['btsubmit'])) {
   $kata_kunci = "";
   $id_akun = null;
   if (isset($_GET['katakunci']) && $_GET['katakunci'] == 'lazadaid' && $_GET['btsubmit']) {
@@ -25,28 +25,53 @@ if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'craw') {
   } elseif (isset($_GET['katakunci']) && $_GET['katakunci'] == 'tokopedia' && $_GET['btsubmit']) {
     $kata_kunci = $_GET['katakunci'];
     $id_akun = 3;
+  } elseif (isset($_GET['btsubmit'])) {
+
   } else {
     ?>
     <script type="text/javascript">
       alert("Maaf kata kunci yang anda masukkan salah");
     </script>
     <?php
+    header("Location: http://localhost/ansen-ecommerce/");
   }
-  if ($kata_kunci != "" && $id_akun != null) {
+  if ($kata_kunci != "" && $id_akun != null && $_GET['btsubmit'] == 'crawindex') {
     $id_akun;
     $o_crawling->get_tweet($kata_kunci, $id_akun);
     $query = $o_koneksi->con->query("SELECT * FROM `data_testing` WHERE `sentimen` IS NULL");
     while ($row = $query->fetch_array()) {
       $id = $row['id_tes'];
       $tweet = $o_preprocessing->input($row['tweet']);
-      $sentimen = $o_naivebayes->klasifikasi_sentimen_testing($tweet);
-      $query_update = $o_koneksi->con->query("UPDATE `data_testing` SET `tweet_preprocessing` = '".$tweet."', `sentimen` = '".$sentimen."'  WHERE `id_tes` = ".$id."");
+      list($prob_pos, $prob_neg, $sentimen) =  $o_naivebayes->klasifikasi_sentimen_testing($tweet);
+      // $sentimen = $o_naivebayes->klasifikasi_sentimen_testing($tweet);
+      $query_update = $o_koneksi->con->query("UPDATE `data_testing` SET `bobot_bayes_positif` = ".$prob_pos.", `bobot_bayes_negatif` = ".$prob_neg.", `sentimen` = '".$sentimen."'  WHERE `id_tes` = ".$id."");
+      // $query_update = $o_koneksi->con->query("UPDATE `data_testing` SET `tweet_preprocessing` = '".$tweet."', `sentimen` = '".$sentimen."'  WHERE `id_tes` = ".$id."");
       // if ($query_update) {
       //   echo " berhasil";
       //   echo "<br>";
       // } else {
       //   echo mysqli_error($query_update);
       // }
+    }
+  } else if ($kata_kunci != "" && $id_akun != null && $_GET['btsubmit'] == 'crawling') {
+    $kata_kunci;
+    $id_akun;
+    $o_crawling->get_tweet($kata_kunci, $id_akun);
+  } else if ($_GET['btsubmit'] == 'prepro'){
+    $query = $o_koneksi->con->query("SELECT * FROM `data_testing` WHERE `tweet_preprocessing` IS NULL");
+    while ($row = $query->fetch_array()) {
+      $id = $row['id_tes'];
+      $tweet = $o_preprocessing->input($row['tweet']);
+      // $sentimen = $o_naivebayes->klasifikasi_sentimen_testing($tweet);
+      $query_update = $o_koneksi->con->query("UPDATE `data_testing` SET `tweet_preprocessing` = '".$tweet."'  WHERE `id_tes` = ".$id."");
+    }
+  } else if ($_GET['btsubmit'] == 'bobot_bayes'){
+    $query = $o_koneksi->con->query("SELECT * FROM `data_testing` WHERE `bobot_bayes_positif` IS NULL");
+    while ($row = $query->fetch_array()) {
+      $id = $row['id_tes'];
+      $tweet = $row['tweet_preprocessing'];
+      list($prob_pos, $prob_neg, $sentimen) =  $o_naivebayes->klasifikasi_sentimen_testing($tweet);
+      $query_update = $o_koneksi->con->query("UPDATE `data_testing` SET `bobot_bayes_positif` = ".$prob_pos.", `bobot_bayes_negatif` = ".$prob_neg.", `sentimen` = '".$sentimen."'  WHERE `id_tes` = ".$id."");
     }
   }
 }

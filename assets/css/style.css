@@ -58,6 +58,7 @@
   background-size: 100%;
   color: #ffffff;
   height: 80px;
+  box-shadow: 0 0 7px rgb(0, 33, 91);
 }
 
 a.navbar-brand {
@@ -143,7 +144,7 @@ a.navbar-brand {
 .menu-kiri{
   margin: 0;
   padding: 0;
-  background-color: #57889c;
+  background-color: #055b7e;
   position: fixed;
   top: 80px;
   height: 90vh;
@@ -163,6 +164,19 @@ a.navbar-brand {
   color: rgb(255, 255, 255);
   /*border: 1px solid rgb(205, 234, 255);*/
   line-height: 50px;
+}
+
+.menu-terpilih {
+  background-color: #02445e;
+  border-left: solid 4px cyan;
+}
+
+.menu-terpilih i{
+  color: cyan;
+}
+
+.sub-nav .sub-menu {
+  padding-left: 30px;
 }
 
 .main{

@@ -1,6 +1,6 @@
 <?php
-include_once 'model/model_proses_crawling.php';
-$data = data_crawling_testing();
+include_once 'model/model_training_crawling.php';
+$data = data_training();
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,6 +16,46 @@ $data = data_crawling_testing();
     <script src="assets/js/bootstrap.min.js" charset="utf-8"></script>
     <!-- <script src="assets/js/zingchart.min.js" charset="utf-8"></script> -->
     <!-- <script src="assets/js/ansenchart.js" charset="utf-8"></script> -->
+    <script type="text/javascript">
+  	$(document).ready(function() {
+  	//event keydown
+  		$('td.edit').keydown(function(event) {
+  			arr = $(this).attr('class').split(" ");
+  			if (event.which == 13) {
+  				$.ajax({
+  					type : "POST",
+  					url : "http://localhost/ansen-ecommerce/training-crawling.php",
+  					data : "value=" + $('.ajax input').val() + "&rownum=" + arr[3] + "&field=" + arr[2],
+  					success : function(data) {
+  						$('.ajax').html($('.ajax input').val());
+  						$('.ajax').removeClass('ajax');
+  					}
+  				});
+  			}
+  	  });
+    	//event click
+    	$('td.edit').dblclick(function(){
+
+    	 	$('.ajax').html($('.ajax input').val());
+    	 	$('.ajax').removeClass('ajax');
+
+    	 	$(this).addClass('ajax');
+    	 	$(this).html('<input id="editbox" size="'+
+    		$(this).text().length+'" type="text" value="' +
+    	 	$(this).text() + '">');
+
+    		$('#editbox').focus();
+
+    	});
+
+    	// editbox
+    	$('#editbox').live('blur',function(){
+    		$('.ajax').html($('.ajax input').val());
+    		$('.ajax').removeClass('ajax');
+    	});
+  	});
+    </script>
+
   </head>
   <body>
     <!-- Header -->
@@ -46,10 +86,10 @@ $data = data_crawling_testing();
     <nav class="col-md-2 menu-kiri">
       <ul>
         <li>
-					<a href="#subPages" data-toggle="collapse" class="active collapsed" aria-expanded="false"><i class="fa fa-gears fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Proses Training  <i class="fa fa-chevron-down pull-right" aria-hidden="true" style="padding:17px;"></i></a>
-					<div id="subPages" class="collapse" aria-expanded="false" style="height: 0px;">
+					<a href="#subPages" data-toggle="collapse" class="active" aria-expanded="true"><i class="fa fa-gears fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Proses Training  <i class="fa fa-chevron-down pull-right" aria-hidden="true" style="padding:17px;"></i></a>
+					<div id="subPages" class="collapse in" aria-expanded="true" style="">
 						<ul class="sub-nav">
-							<li><a href="training-crawling.php" class="sub-menu"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
+							<li class="menu-terpilih"><a href="training-crawling.php" class="sub-menu"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
 							<li><a href="training-preprocessing.php" class="sub-menu"><i class="fa fa-retweet fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Preprocessing</a></li>
               <li><a href="training-information-gain.php" class="sub-menu"><i class="fa fa-balance-scale fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Information Gain</a></li>
               <li><a href="training-naive-bayes.php" class="sub-menu"><i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Naive Bayes</a></li>
@@ -57,7 +97,7 @@ $data = data_crawling_testing();
 						</ul>
 					</div>
 				</li>
-        <li class="menu-terpilih"><a href="http://localhost/ansen-ecommerce/proses-crawling.php"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
+        <li><a href="http://localhost/ansen-ecommerce/proses-crawling.php"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
         <li><a href="http://localhost/ansen-ecommerce/proses-preprocessing.php"><i class="fa fa-retweet fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Preprocessing</a></li>
         <li><a href="http://localhost/ansen-ecommerce/proses-information-gain.php"><i class="fa fa-balance-scale fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot IG</a></li>
         <li><a href="http://localhost/ansen-ecommerce/proses-bobot-bayes.php"><i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot Bayes</a></li>
@@ -72,7 +112,7 @@ $data = data_crawling_testing();
         <div class="col-md-10">
           <h3>Crawling</h3>
           <hr>
-          <form action="" method="get">
+          <!-- <form action="" method="get">
            <div class="input-group">
              <input type="text" class="form-control" placeholder="Search" name="katakunci">
              <div class="input-group-btn">
@@ -81,24 +121,24 @@ $data = data_crawling_testing();
                </button>
              </div>
            </div>
-          </form>
-          <br><br>
+          </form> -->
+          <br>
           <?php if ($data->num_rows > 0): ?>
 
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Id Tweet</th>
+                <th style="text-align:center;">Id Tweet</th>
                 <th>Tweet</th>
-                <th>Tanggal</th>
+                <th style="text-align:center;">Sentimen</th>
               </tr>
             </thead>
             <tbody>
             <?php while ($row = mysqli_fetch_assoc($data)) { ?>
               <tr>
-                <td class="col-md-2"><?php echo $row['id_tweet']; ?></td>
+                <td class="col-md-1" style="text-align:center;"><?php echo $row['id_training']; ?></td>
                 <td class="col-md-9"><?php echo $row['tweet']; ?></td>
-                <td class="col-md-1"><?php echo date("d-m-Y", strtotime($row['tanggal'])); ?></td>
+                <td class="col-md-2 edit sentimen <?php echo $row['id_training']; ?>" style="text-align:center;"><?php echo $row['sentimen']; ?></td>
               </tr>
             <?php } ?>
             </tbody>

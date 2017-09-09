@@ -49,10 +49,10 @@ include_once 'crawling.php';
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="">Beranda</a></li>
-							<li><a href="">Akurasi</a></li>
-							<li><a href="">Visualisasi</a></li>
-							<li><a href="">Tentang kami</a></li>
+							<li><a href="http://localhost/ansen-ecommerce/">Beranda</a></li>
+							<li><a href="http://localhost/ansen-ecommerce/proses-crawling.php">Proses</a></li>
+							<li><a href="http://localhost/ansen-ecommerce/visualisasi.php">Visualisasi</a></li>
+							<li><a href="http://localhost/ansen-ecommerce/tentang-kami.php">Tentang Kami</a></li>
 						</ul>
 					</div>
 				</div>
@@ -65,7 +65,7 @@ include_once 'crawling.php';
               <div class="input-group col-md-12">
                 <input type="text" class="form-control input-lg" placeholder="Cari" name="katakunci">
                 <span class="input-group-btn">
-                  <button class="btn btn-info btn-lg" type="submit" name="btsubmit" value="craw">
+                  <button class="btn btn-info btn-lg" type="submit" name="btsubmit" value="crawindex">
                     <i class="glyphicon glyphicon-search"></i>
                   </button>
                 </span>

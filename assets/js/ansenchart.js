@@ -43,7 +43,7 @@ $(document).ready(function(){
         },
         {
           values: bukalapak_n,
-          text: "Bikalapak Negatif"
+          text: "Bukalapak Negatif"
         },
         {
           values: tokopedia_p,

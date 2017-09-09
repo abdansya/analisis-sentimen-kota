@@ -1,6 +1,6 @@
 <?php
-include_once 'model/model_proses_preprocessing.php';
-$data = data_crawling_testing();
+include_once 'model/model_training_preprocessing.php';
+$data = data_training();
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,6 +14,8 @@ $data = data_crawling_testing();
     <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
     <script src="assets/js/jquery-3.2.1.min.js" charset="utf-8"></script>
     <script src="assets/js/bootstrap.min.js" charset="utf-8"></script>
+    <!-- <script src="assets/js/zingchart.min.js" charset="utf-8"></script> -->
+    <!-- <script src="assets/js/ansenchart.js" charset="utf-8"></script> -->
   </head>
   <body>
     <!-- Header -->
@@ -43,8 +45,20 @@ $data = data_crawling_testing();
     <!-- Section -->
     <nav class="col-md-2 menu-kiri">
       <ul>
+        <li>
+					<a href="#subPages" data-toggle="collapse" class="active" aria-expanded="true"><i class="fa fa-gears fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Proses Training  <i class="fa fa-chevron-down pull-right" aria-hidden="true" style="padding:17px;"></i></a>
+					<div id="subPages" class="collapse in" aria-expanded="true" style="">
+						<ul class="sub-nav">
+							<li><a href="training-crawling.php" class="sub-menu"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
+							<li class="menu-terpilih"><a href="training-preprocessing.php" class="sub-menu"><i class="fa fa-retweet fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Preprocessing</a></li>
+              <li><a href="training-information-gain.php" class="sub-menu"><i class="fa fa-balance-scale fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Information Gain</a></li>
+              <li><a href="training-naive-bayes.php" class="sub-menu"><i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Naive Bayes</a></li>
+              <li><a href="training-akurasi.php" class="sub-menu"><i class="fa fa-dashboard fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Akurasi</a></li>
+						</ul>
+					</div>
+				</li>
         <li><a href="http://localhost/ansen-ecommerce/proses-crawling.php"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
-        <li class="menu-terpilih"><a href="http://localhost/ansen-ecommerce/proses-preprocessing.php"><i class="fa fa-retweet fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Preprocessing</a></li>
+        <li><a href="http://localhost/ansen-ecommerce/proses-preprocessing.php"><i class="fa fa-retweet fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Preprocessing</a></li>
         <li><a href="http://localhost/ansen-ecommerce/proses-information-gain.php"><i class="fa fa-balance-scale fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot IG</a></li>
         <li><a href="http://localhost/ansen-ecommerce/proses-bobot-bayes.php"><i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot Bayes</a></li>
         <li><a href="http://localhost/ansen-ecommerce/proses-klasifikasi-bayes.php"><i class="fa fa-table fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Klasifikasi Sentimen</a></li>
@@ -67,19 +81,17 @@ $data = data_crawling_testing();
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Id Tweet</th>
+                <th style="text-align:center;">Id Tweet</th>
                 <th>Tweet</th>
                 <th>Tweet Preprocessing</th>
-                <th>Tanggal</th>
               </tr>
             </thead>
             <tbody>
             <?php while ($row = mysqli_fetch_assoc($data)) { ?>
               <tr>
-                <td class="col-md-2"><?php echo $row['id_tweet']; ?></td>
-                <td class="col-md-4"><?php echo $row['tweet']; ?></td>
-                <td class="col-md-4"><?php echo $row['tweet_preprocessing']; ?></td>
-                <td class="col-md-2"><?php echo date("d-m-Y", strtotime($row['tanggal'])); ?></td>
+                <td class="col-md-1" style="text-align:center;"><?php echo $row['id_training']; ?></td>
+                <td class="col-md-6"><?php echo $row['tweet']; ?></td>
+                <td class="col-md-5"><?php echo $row['tweet_preprocessing']; ?></td>
               </tr>
             <?php } ?>
             </tbody>

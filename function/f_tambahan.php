@@ -1,11 +1,11 @@
-<?php 
+<?php
 include_once "koneksi_procedural.php";
 set_time_limit(0);
 function pemisah_kata() {
 	GLOBAL $con;
 	$query = "SELECT `tweet_preprocessing` FROM `data_training`";
 	$data = mysqli_query($con, $query);
-	
+
 	while ($dokumen = mysqli_fetch_array($data)) {
 		$kalimat = $dokumen['tweet_preprocessing'];
 		$kal = explode(' ', $kalimat);
@@ -42,7 +42,7 @@ function frekuensi_kata() {
 			$tweet = $kalimat;
 		}
 		echo $hasil['kata']." = $n";
-		
+
 		$query_simpan = "UPDATE `data_training_kata` SET `frekuensi`= $n WHERE id_kata = ".$hasil['id_kata'];
 		$simpan = mysqli_query($con, $query_simpan);
 		if ($simpan) {
@@ -86,7 +86,7 @@ function urutkan_nomor() {
 		array_push($id_training, $no['id_training']);
 	}
 
-	for ($i=1; $i < count($id_training); $i++) { 
+	for ($i=1; $i < count($id_training); $i++) {
 
 		echo $q = "UPDATE `data_training` SET `id_training`= $i WHERE `id_training` = ".$id_training[$a]."";
 		$hasil = mysqli_query($con, $q);
@@ -98,7 +98,48 @@ function urutkan_nomor() {
 	}
 }
 
+function data_training() {
+	GLOBAL $con;
+	$query = "SELECT * FROM `data_training`";
+	$hasil = mysqli_query($con, $query);
+	return $hasil;
+}
 
+function data_crawling() {
+	GLOBAL $con;
+	$tanggal_crawling = date('Y-m-d', strtotime('-8 days', strtotime( date('Y-m-d') )));
+	$query = "SELECT * FROM `data_testing` WHERE `tanggal` > '".$tanggal_crawling."' ORDER BY `data_testing`.`id_tes` DESC";
+	$hasil = mysqli_query($con, $query);
+	return $hasil;
+}
+
+function data_bobot() {
+	GLOBAL $con;
+	$query = "SELECT * FROM `data_training_kata` ORDER BY `id_kata` ASC";
+	$hasil = mysqli_query($con, $query);
+	return $hasil;
+}
+
+function data_bobot_bayes_testing() {
+	GLOBAL $con;
+	$tanggal_crawling = date('Y-m-d', strtotime('-8 days', strtotime( date('Y-m-d') )));
+	$query = "SELECT `id_tes`, `tweet`, `bobot_bayes_positif`, `bobot_bayes_negatif`, `sentimen` FROM `data_testing` WHERE `tanggal` > '".$tanggal_crawling."' ORDER BY `data_testing`.`id_tes` DESC";
+	$hasil = mysqli_query($con, $query);
+	return $hasil;
+}
+
+function data_bobot_bayes_training() {
+	GLOBAL $con;
+	$query = "SELECT `id_kata`, `kata`, `bobot_bayes_positif`, `bobot_bayes_negatif` FROM `data_training_kata`";
+	$hasil = mysqli_query($con, $query);
+	return $hasil;
+}
+
+function update_data_training($field, $data, $rownum) {
+	GLOBAL $con;
+	$query = "UPDATE `data_training` SET `".$field."` = '".$data."' WHERE `id_training` = ".$rownum;
+	mysqli_query($con, $query) or die(mysql_error());
+}
 
 // pemisah_kata();
 // frekuensi_kata();

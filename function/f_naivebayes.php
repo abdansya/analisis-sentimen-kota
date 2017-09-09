@@ -94,7 +94,7 @@ class Naive_bayes extends Koneksi {
 		}
 	}
 
-	public function get_probabilitas_kategori_positf() {
+	public function get_probabilitas_kategori_positif() {
 		$query = $this->con->query("SELECT count(id_training) FROM `data_training` WHERE `sentimen` = 'P'");
 		$row = $query->fetch_row();
 		$jumlah_p = $row[0];
@@ -116,7 +116,7 @@ class Naive_bayes extends Koneksi {
 
 
 	public function klasifikasi_sentimen() {
-		$query_dok = $this->con->query("SELECT `id_testing`, `tweet_preprocessing` FROM data_training_tes ORDER BY `id_testing`");
+		$query_dok = $this->con->query("SELECT `id_training`, `tweet_preprocessing` FROM data_training_tes ORDER BY `id_training`");
 		while ($row_dok = $query_dok->fetch_array()) {
 			$prob_kata_positif = [];
 			$prob_kata_negatif = [];
@@ -136,7 +136,7 @@ class Naive_bayes extends Koneksi {
 				}
 			}
 
-			$prob_dokumen_positif = $this->get_probabilitas_kategori_positf();
+			$prob_dokumen_positif = $this->get_probabilitas_kategori_positif();
 			foreach ($prob_kata_positif as $kata_prob => $value) {
 				$prob_dokumen_positif *= $value;
 			}
@@ -154,7 +154,7 @@ class Naive_bayes extends Koneksi {
 				$sentimen = "Tidak ada";
 			}
 
-			$query_simpan = $this->con->query("UPDATE `data_training_tes` SET `sentimen` = '".$sentimen."' WHERE `id_testing` = ".$row_dok['id_testing']."");
+			$query_simpan = $this->con->query("UPDATE `data_training_tes` SET `sentimen` = '".$sentimen."' WHERE `id_training` = ".$row_dok['id_training']."");
 			if ($query_simpan) {
 				// echo $row_dok['tweet_preprocessing'];
 				// echo " Berhasil";
@@ -171,7 +171,7 @@ class Naive_bayes extends Koneksi {
 			// echo "<br>";
 			// print_r($prob_kata_negatif);
 			// echo "<br>";
-			// echo "Prob psoitif = ".$this->get_probabilitas_kategori_positf();
+			// echo "Prob psoitif = ".$this->get_probabilitas_kategori_positif();
 			// echo "<br>";
 			// echo "Prob negatif = ".$this->get_probabilitas_kategori_negatif();
 			// echo "<br>";
@@ -190,7 +190,7 @@ class Naive_bayes extends Koneksi {
 	public function klasifikasi_sentimen_ig($batas_ambang_ig) {
 		echo "Threshold = ".$batas_ambang_ig;
 		echo "<br><br>";
-		$query_dok = $this->con->query("SELECT `id_testing`, `tweet_preprocessing` FROM data_training_tes ORDER BY `id_testing`");
+		$query_dok = $this->con->query("SELECT `id_training`, `tweet_preprocessing` FROM data_training_tes ORDER BY `id_training`");
 		while ($row_dok = $query_dok->fetch_array()) {
 			$prob_kata_positif = [];
 			$prob_kata_negatif = [];
@@ -208,7 +208,7 @@ class Naive_bayes extends Koneksi {
 				}
 			}
 
-			$prob_dokumen_positif = $this->get_probabilitas_kategori_positf();
+			$prob_dokumen_positif = $this->get_probabilitas_kategori_positif();
 			foreach ($prob_kata_positif as $kata_prob => $value) {
 				$prob_dokumen_positif *= $value;
 			}
@@ -226,7 +226,7 @@ class Naive_bayes extends Koneksi {
 				$sentimen = "Tidak ada";
 			}
 
-			$query_simpan = $this->con->query("UPDATE `data_training_tes` SET `sentimen_ig` = '".$sentimen."' WHERE `id_testing` = ".$row_dok['id_testing']."");
+			$query_simpan = $this->con->query("UPDATE `data_training_tes` SET `sentimen_ig` = '".$sentimen."' WHERE `id_training` = ".$row_dok['id_training']."");
 			if ($query_simpan) {
 				echo $row_dok['tweet_preprocessing'];
 				echo " Berhasil";
@@ -243,7 +243,7 @@ class Naive_bayes extends Koneksi {
 			// echo "<br>";
 			// print_r($prob_kata_negatif);
 			// echo "<br>";
-			// echo "Prob psoitif = ".$this->get_probabilitas_kategori_positf();
+			// echo "Prob psoitif = ".$this->get_probabilitas_kategori_positif();
 			// echo "<br>";
 			// echo "Prob negatif = ".$this->get_probabilitas_kategori_negatif();
 			// echo "<br>";
@@ -266,7 +266,7 @@ class Naive_bayes extends Koneksi {
 		foreach ($kata_hasil as $key) {
 			$query_bobot_kata = $this->con->query("SELECT `id_kata`, `kata`, `bobot_bayes_positif`, `bobot_bayes_negatif` FROM `data_training_kata` WHERE `kata` = '".$key."'");
 			while ($row_kata = $query_bobot_kata->fetch_array()) {
-				echo $row_kata['kata']." ";
+				// echo $row_kata['kata']." ";
 				if ($key == $row_kata['kata']) {
 					$prob_kata_positif[$key] = round($row_kata['bobot_bayes_positif'], 8);
 					$prob_kata_negatif[$key] = round($row_kata['bobot_bayes_negatif'], 8);
@@ -277,7 +277,7 @@ class Naive_bayes extends Koneksi {
 			}
 		}
 
-		$prob_dokumen_positif = $this->get_probabilitas_kategori_positf();
+		$prob_dokumen_positif = $this->get_probabilitas_kategori_positif();
 		foreach ($prob_kata_positif as $kata_prob => $value) {
 			$prob_dokumen_positif *= $value;
 		}
@@ -292,17 +292,17 @@ class Naive_bayes extends Koneksi {
 		} else if ($prob_dokumen_positif < $prob_dokumen_negatif) {
 			$sentimen = "N";
 		} else {
-			$sentimen = "Tidak ada";
+			$sentimen = "F";
 		}
 
-		return $sentimen;
+		return array($prob_dokumen_positif, $prob_dokumen_negatif, $sentimen);
 		// echo $row_dok['tweet_preprocessing'];
 		// echo "<br>";
 		// print_r($prob_kata_positif);
 		// echo "<br>";
 		// print_r($prob_kata_negatif);
 		// echo "<br>";
-		// echo "Prob psoitif = ".$this->get_probabilitas_kategori_positf();
+		// echo "Prob psoitif = ".$this->get_probabilitas_kategori_positif();
 		// echo "<br>";
 		// echo "Prob negatif = ".$this->get_probabilitas_kategori_negatif();
 		// echo "<br>";
@@ -316,12 +316,33 @@ class Naive_bayes extends Koneksi {
 
 
 
-	public function akurasi()	{
+	// public function akurasi()	{
+	// 	$jumlah_sama = 0;
+	// 	$jumlah_tidak_sama = 0;
+	// 	$query_testing  = $this->con->query("SELECT `id_testing`, `sentimen_ig` FROM `data_training_tes` ORDER BY `id_testing`");
+	// 	while ($row_tes = $query_testing->fetch_array()) {
+	// 		$query_training = $this->con->query("SELECT count(id_training) FROM `data_training` WHERE `id_training` = ".$row_tes['id_testing']." AND `sentimen` = '".$row_tes['sentimen_ig']."' ORDER BY `id_training`");
+	// 		$row_train = $query_training->fetch_row();
+	// 		if ($row_train[0] == 1) {
+	// 			$jumlah_sama += 1;
+	// 		} else {
+	// 			$jumlah_tidak_sama += 1;
+	// 		}
+	// 	}
+	// 	$akurasi = round($jumlah_sama/($jumlah_sama+$jumlah_tidak_sama),2);
+	// 	echo "Jumlah sama : ".$jumlah_sama;
+	// 	echo "<br>";
+	// 	echo "Jumlah tidak sama : ".$jumlah_tidak_sama;
+	// 	echo "<br>";
+	// 	echo "Akurasi : ".$akurasi;
+	// }
+
+	public function akurasi($threshold, $time)	{
 		$jumlah_sama = 0;
 		$jumlah_tidak_sama = 0;
-		$query_testing  = $this->con->query("SELECT `id_testing`, `sentimen_ig` FROM `data_training_tes` ORDER BY `id_testing`");
+		$query_testing  = $this->con->query("SELECT `id_training`, `sentimen_ig` FROM `data_training_tes` ORDER BY `id_training`");
 		while ($row_tes = $query_testing->fetch_array()) {
-			$query_training = $this->con->query("SELECT count(id_training) FROM `data_training` WHERE `id_training` = ".$row_tes['id_testing']." AND `sentimen` = '".$row_tes['sentimen_ig']."' ORDER BY `id_training`");
+			$query_training = $this->con->query("SELECT count(id_training) FROM `data_training` WHERE `id_training` = ".$row_tes['id_training']." AND `sentimen` = '".$row_tes['sentimen_ig']."' ORDER BY `id_training`");
 			$row_train = $query_training->fetch_row();
 			if ($row_train[0] == 1) {
 				$jumlah_sama += 1;
@@ -329,12 +350,13 @@ class Naive_bayes extends Koneksi {
 				$jumlah_tidak_sama += 1;
 			}
 		}
-		$akurasi = round($jumlah_sama/($jumlah_sama+$jumlah_tidak_sama),2);
+		$akurasi = round($jumlah_sama/($jumlah_sama+$jumlah_tidak_sama),4)*100;
 		echo "Jumlah sama : ".$jumlah_sama;
 		echo "<br>";
 		echo "Jumlah tidak sama : ".$jumlah_tidak_sama;
 		echo "<br>";
 		echo "Akurasi : ".$akurasi;
+		$query_simpan = $this->con->query("INSERT INTO `data_akurasi` (`threshold`, `akurasi`, `waktu`) VALUES ($threshold, $akurasi, $time)");
 	}
 
 
