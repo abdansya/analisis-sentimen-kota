@@ -141,6 +141,22 @@ function update_data_training($field, $data, $rownum) {
 	mysqli_query($con, $query) or die(mysql_error());
 }
 
+function pilih_kota()
+{
+	GLOBAL $con;
+	$query = "SELECT * FROM `tb_kota`";
+	$hasil = mysqli_query($con, $query) or die(mysql_error());
+	return $hasil;
+}
+
+function pilih_jenis_sentimen()
+{
+	GLOBAL $con;
+	$query = "SELECT * FROM `tb_jenis_sentimen`";
+	$hasil = mysqli_query($con, $query) or die(mysql_error());
+	return $hasil;
+}
+
 // pemisah_kata();
 // frekuensi_kata();
 // total_kata();

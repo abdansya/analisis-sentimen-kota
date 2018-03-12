@@ -7,7 +7,7 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 */
 class Crawling extends Koneksi {
 
-	public function get_tweet($keyword, $id_akun) {
+	public function get_tweet($keyword, $id_kota, $id_jenis) {
 
 		// ganti dengan API twitter anda
 		$key = '2IVubz2TIA1wc2iLnUn9t7Ta9';
@@ -17,7 +17,23 @@ class Crawling extends Koneksi {
 
 		$conn = new TwitterOAuth($key, $secret_key, $token, $secret_token);
 
-
+		if (in_array($id_jenis, [1,7])) {
+			$id_kategori = 1;
+		} elseif (in_array($id_jenis, [2,3,4,8,12,13,14,15,16])) {
+			$id_kategori = 2;
+		} elseif (in_array($id_jenis, [9])) {
+			$id_kategori = 3;
+		} elseif (in_array($id_jenis, [6])) {
+			$id_kategori = 4;
+		} elseif (in_array($id_jenis, [5,18])) {
+			$id_kategori = 5;
+		} elseif (in_array($id_jenis, [10])) {
+			$id_kategori = 6;
+		} elseif (in_array($id_jenis, [11])) {
+			$id_kategori = 7;
+		} elseif (in_array($id_jenis, [17])) {
+			$id_kategori = 8;
+		}
 		// menagmbil tweet berdasarkan keyword yang di tentukan
 		// anda bisa merubah jumlah tweet yang akan di tampilkanb dengan merubah angka pada count
 		for ($j=7; $j >= 0 ; $j--) {
@@ -39,7 +55,7 @@ class Crawling extends Koneksi {
 			  // echo '</strong>'.$date.'</strong><br/>';
 			  // echo '<strong>'.$user.'</strong> : '.$text.'<br/>';
 				// echo $id_tweet.'<br/>';
-				$query = $this->con->query("INSERT INTO `data_testing` (`id_akun`, `id_tweet`, `tweet`, `tanggal`) VALUES (".$id_akun.", ".$id_tweet.", '".$text."', '".$date."')");
+				$query = $this->con->query("INSERT INTO `data_testing` (`id_jenis`, `id_kategori`,`id_kota`, `id_tweet`, `tweet`, `tanggal`) VALUES (".$id_jenis.", ".$id_kategori.", ".$id_kota.", ".$id_tweet.", '".$text."', '".$date."')");
 				// if ($query) {
 				// 	echo " berhasil";
 				// 	echo "<hr>";

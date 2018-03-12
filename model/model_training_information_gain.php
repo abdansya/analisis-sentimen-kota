@@ -15,6 +15,7 @@ if (isset($_GET['btsubmit'])) {
   $info_gain->entropy_set();
   $info_gain->entropy_kata();
   $info_gain->set_info_gain();
+  header('Location: http://localhost/ansen-kota/training-information-gain.php');
 }
 
 function data_bobot_training() {

@@ -1,32 +1,35 @@
 <?php
 require_once 'function/koneksi_procedural.php';
 include_once 'function/f_crawlingtweet.php';
-
+include_once 'function/f_tambahan.php';
 $o_crawling = new Crawling();
 
 if (isset($_GET['btsubmit'])) {
   $kata_kunci = "";
-  $id_akun = null;
-  if (isset($_GET['katakunci']) && $_GET['katakunci'] == 'lazadaid' && $_GET['btsubmit']) {
-    $kata_kunci = $_GET['katakunci'];
-    $id_akun = 1;
-  } elseif (isset($_GET['katakunci']) && $_GET['katakunci'] == 'bukalapak' && $_GET['btsubmit']) {
-    $kata_kunci = $_GET['katakunci'];
-    $id_akun = 2;
-  } elseif (isset($_GET['katakunci']) && $_GET['katakunci'] == 'tokopedia' && $_GET['btsubmit']) {
-    $kata_kunci = $_GET['katakunci'];
-    $id_akun = 3;
-  } else {
+  $id_kota = null;
+  $query_kota =  pilih_kota();
+  while ($row = mysqli_fetch_assoc($query_kota)) {
+    if (isset($_GET['katakunci']) && $_GET['katakunci'] == $row['kota'] && $_GET['btsubmit']) {
+      $kata_kunci = $_GET['katakunci'];
+      $id_kota = $row['id'];
+      break;
+    }
+  }
+  if ($kata_kunci == "") {
     ?>
     <script type="text/javascript">
       alert("Maaf kata kunci yang anda masukkan salah");
     </script>
     <?php
-    // header("Location: http://localhost/ansen-ecommerce/proses-crawling.php");
   }
-  if ($kata_kunci != "" && $id_akun != null && $_GET['btsubmit'] == 'crawling') {
-    $o_crawling->get_tweet($kata_kunci, $id_akun);
+  $query_jenis = pilih_jenis_sentimen();
+  while ($data = mysqli_fetch_assoc($query_jenis)) {
+    if ($kata_kunci != "" && $id_kota != null && $_GET['btsubmit'] == 'Proses') {
+      $hasil_kata_kunci = $kata_kunci." ".$data['jenis_sentimen'];
+      $o_crawling->get_tweet($hasil_kata_kunci, $id_kota, $data['id']);
+    }
   }
+  header("Location: http://localhost/ansen-kota/proses-crawling.php");
 }
 
 function data_crawling_testing() {

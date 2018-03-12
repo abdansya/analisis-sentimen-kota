@@ -8,7 +8,7 @@ class Koneksi {
   public $host = 'localhost';
   public $user = 'root';
   public $pass = '';
-  public $db = 'ansen_ecommerce';
+  public $db = 'ansen_smartcity';
   public $con;
   
   public function __construct() {

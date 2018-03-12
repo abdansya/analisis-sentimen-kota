@@ -5,8 +5,8 @@ require_once 'function/koneksi_procedural.php';
 if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'akurasi' ) {
   $nb = new Naive_bayes();
 
-  $batas = 4100;
-  for ($i=0; $i < 20 ; $i++) {
+  $batas = 30904;
+  for ($i=0; $i < 10 ; $i++) {
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -25,6 +25,7 @@ if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'akurasi' ) {
     $nb->akurasi($batas, $total_time);
     $batas -= 100;
   }
+  header('Location: http://localhost/ansen-kota/training-akurasi.php');
 }
 
 function data_akurasi() {

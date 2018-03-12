@@ -1,18 +1,32 @@
-<?php 
+<?php
 
 include_once "function/koneksi.php";
 
 class Information_gain extends Koneksi{
-  
+
+  public function pemisah_kata() {
+  	$query = $this->con->query("SELECT `tweet_preprocessing` FROM `data_training`");
+  	while ($dokumen = $query->fetch_array()) {
+  		$kalimat = $dokumen['tweet_preprocessing'];
+  		$kal = explode(' ', $kalimat);
+  		foreach ($kal as $kata) {
+  			$simpan = $this->con->query("INSERT INTO `data_training_kata`(`kata`) VALUES ('".$kata."')");
+  			if ($simpan) {
+  				echo $kata;echo "<br>";
+  			}
+  		}
+  	}
+  }
+
   public function get_jumlah_tweet_positif() {
-    $query = $this->con->query("SELECT count(id_training) FROM data_training WHERE sentimen = 'P'");
+    $query = $this->con->query("SELECT count(id_training) FROM data_training WHERE sentimen = 'p'");
     $row = $query->fetch_row();
     $jumlah = $row['0'];
     return $jumlah;
   }
 
   public function get_jumlah_tweet_negatif() {
-    $query = $this->con->query("SELECT count(id_training) FROM data_training WHERE sentimen = 'N'");
+    $query = $this->con->query("SELECT count(id_training) FROM data_training WHERE sentimen = 'n'");
     $row = $query->fetch_row();
     $jumlah = $row['0'];
     return $jumlah;
@@ -31,7 +45,7 @@ class Information_gain extends Koneksi{
     while ($row_kata = $query_kata->fetch_array()) {
       $i = 0;
       $kata = $row_kata['kata'];
-      $query_dokumen = $this->con->query("SELECT `tweet_preprocessing`,`sentimen` FROM data_training WHERE `sentimen` = 'P' ORDER BY `id_training` ASC");
+      $query_dokumen = $this->con->query("SELECT `tweet_preprocessing`,`sentimen` FROM data_training WHERE `sentimen` = 'p' ORDER BY `id_training` ASC");
       while ($row_dokumen = $query_dokumen->fetch_array()) {
         $kata_dok = explode(' ', $row_dokumen['tweet_preprocessing']);
         foreach ($kata_dok as $key) {
@@ -61,7 +75,7 @@ class Information_gain extends Koneksi{
     while ($row_kata = $query_kata->fetch_array()) {
       $i = 0;
       $kata = $row_kata['kata'];
-      $query_dokumen = $this->con->query("SELECT `tweet_preprocessing`,`sentimen` FROM data_training WHERE `sentimen` = 'N' ORDER BY `id_training` ASC");
+      $query_dokumen = $this->con->query("SELECT `tweet_preprocessing`,`sentimen` FROM data_training WHERE `sentimen` = 'n' ORDER BY `id_training` ASC");
       while ($row_dokumen = $query_dokumen->fetch_array()) {
         $kata_dok = explode(' ', $row_dokumen['tweet_preprocessing']);
         foreach ($kata_dok as $key) {
@@ -164,7 +178,7 @@ class Information_gain extends Koneksi{
         echo "<br>";
       }
     }
-    
+
   }
 
   public function set_entropy_kata_tidak() {

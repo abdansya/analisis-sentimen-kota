@@ -11,7 +11,6 @@ if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'prepro'){
   while ($row = $query->fetch_array()) {
     $id = $row['id_tes'];
     $tweet = $o_preprocessing->input($row['tweet']);
-    // $sentimen = $o_naivebayes->klasifikasi_sentimen_testing($tweet);
     $query_update = $o_koneksi->con->query("UPDATE `data_testing` SET `tweet_preprocessing` = '".$tweet."'  WHERE `id_tes` = ".$id."");
   }
 }

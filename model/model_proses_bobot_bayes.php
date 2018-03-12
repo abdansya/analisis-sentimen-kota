@@ -12,6 +12,7 @@ if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'bobot_bayes'){
     list($prob_pos, $prob_neg, $sentimen) =  $o_naivebayes->klasifikasi_sentimen_testing($tweet);
     $query_update = $o_koneksi->con->query("UPDATE `data_testing` SET `bobot_bayes_positif` = ".$prob_pos.", `bobot_bayes_negatif` = ".$prob_neg.", `sentimen` = '".$sentimen."'  WHERE `id_tes` = ".$id."");
   }
+  header("Location: http://localhost/ansen-kota/proses-bobot-bayes.php");
 }
 
 function data_bobot_bayes_testing() {

@@ -7,7 +7,7 @@ $data = data_bobot_bayes_training();
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Analisis Ecommerce</title>
+    <title>Analisis Kota</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -28,14 +28,14 @@ $data = data_bobot_bayes_training();
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-						<a class="navbar-brand" href="index.php">Analisis E-Commerce</a>
+						<a class="navbar-brand" href="index.php">Analisis Kota</a>
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
 						<ul class="nav navbar-nav navbar-right">
-              <li><a href="http://localhost/ansen-ecommerce/">Beranda</a></li>
-							<li><a href="http://localhost/ansen-ecommerce/proses-crawling.php">Proses</a></li>
-							<li><a href="http://localhost/ansen-ecommerce/visualisasi.php">Visualisasi</a></li>
-							<li><a href="http://localhost/ansen-ecommerce/tentang-kami.php">Tentang Kami</a></li>
+              <li><a href="http://localhost/ansen-kota/">Beranda</a></li>
+							<li><a href="http://localhost/ansen-kota/proses-crawling.php">Proses</a></li>
+							<li><a href="http://localhost/ansen-kota/visualisasi.php">Visualisasi</a></li>
+							<li><a href="http://localhost/ansen-kota/tentang-kami.php">Tentang Kami</a></li>
 						</ul>
 					</div>
 				</div>
@@ -57,15 +57,15 @@ $data = data_bobot_bayes_training();
 						</ul>
 					</div>
 				</li>
-        <li><a href="http://localhost/ansen-ecommerce/proses-crawling.php"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
-        <li><a href="http://localhost/ansen-ecommerce/proses-preprocessing.php"><i class="fa fa-retweet fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Preprocessing</a></li>
-        <li><a href="http://localhost/ansen-ecommerce/proses-information-gain.php"><i class="fa fa-balance-scale fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot IG</a></li>
-        <li><a href="http://localhost/ansen-ecommerce/proses-bobot-bayes.php"><i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot Bayes</a></li>
-        <li><a href="http://localhost/ansen-ecommerce/proses-klasifikasi-bayes.php"><i class="fa fa-table fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Klasifikasi Sentimen</a></li>
-        <li><a href="http://localhost/ansen-ecommerce/visualisasi.php"><i class="fa fa-area-chart fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Visualisasi</a></li>
+        <li><a href="http://localhost/ansen-kota/proses-crawling.php"><i class="fa fa-search-plus fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Crawling</a></li>
+        <li><a href="http://localhost/ansen-kota/proses-preprocessing.php"><i class="fa fa-retweet fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Preprocessing</a></li>
+        <li><a href="http://localhost/ansen-kota/proses-information-gain.php"><i class="fa fa-balance-scale fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot IG</a></li>
+        <li><a href="http://localhost/ansen-kota/proses-bobot-bayes.php"><i class="fa fa-shopping-basket fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Bobot Bayes</a></li>
+        <li><a href="http://localhost/ansen-kota/proses-klasifikasi-bayes.php"><i class="fa fa-table fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Klasifikasi Sentimen</a></li>
+        <li><a href="http://localhost/ansen-kota/visualisasi.php"><i class="fa fa-area-chart fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;Visualisasi</a></li>
       </ul>
     </nav>
-    <main class="main container-fluid">
+    <main class="main container-fluid" style="overflow:hidden;">
       <div class="row">
         <div class="col-md-2">
         </div>
@@ -93,7 +93,18 @@ $data = data_bobot_bayes_training();
               </tr>
             </thead>
             <tbody>
-            <?php while ($row = mysqli_fetch_assoc($data)) { ?>
+              <?php
+              // Cek apakah terdapat data page pada URL
+              $page = (isset($_GET['page']))? $_GET['page'] : 1;
+              $limit = 50; // Jumlah data per halamannya
+              // Untuk menentukan dari data ke berapa yang akan ditampilkan pada tabel yang ada di database
+              $limit_start = ($page - 1) * $limit;
+              // Buat query untuk menampilkan data siswa sesuai limit yang ditentukan
+              $sql = $pdo->prepare("SELECT * FROM `data_training_kata` ORDER BY `id_kata` ASC LIMIT ".$limit_start.",".$limit);
+              $sql->execute(); // Eksekusi querynya
+              $no = $limit_start + 1; // Untuk penomoran tabel
+
+              while ($row = $sql->fetch()) { ?>
               <tr>
                 <td><?php echo $row['id_kata']; ?></td>
                 <td><?php echo $row['kata']; ?></td>
@@ -103,6 +114,71 @@ $data = data_bobot_bayes_training();
             <?php } ?>
             </tbody>
           </table>
+          <!--
+          -- Buat Paginationnya
+          -- Dengan bootstrap, kita jadi dimudahkan untuk membuat tombol-tombol pagination dengan design yang bagus tentunya
+          -->
+          <div class="container">
+            <div class="row">
+              <div class="col-md-10" style="text-align:center;">
+                <ul class="pagination">
+                  <!-- LINK FIRST AND PREV -->
+                  <?php
+                  if($page == 1){ // Jika page adalah page ke 1, maka disable link PREV
+                  ?>
+                    <li class="disabled"><a href="#">First</a></li>
+                    <li class="disabled"><a href="#">&laquo;</a></li>
+                  <?php
+                  }else{ // Jika page bukan page ke 1
+                    $link_prev = ($page > 1)? $page - 1 : 1;
+                  ?>
+                    <li><a href="training-naive-bayes.php?page=1">First</a></li>
+                    <li><a href="training-naive-bayes.php?page=<?php echo $link_prev; ?>">&laquo;</a></li>
+                  <?php
+                  }
+                  ?>
+
+                  <!-- LINK NUMBER -->
+                  <?php
+                  // Buat query untuk menghitung semua jumlah data
+                  $sql2 = $pdo->prepare("SELECT COUNT(*) AS jumlah FROM data_training_kata");
+                  $sql2->execute(); // Eksekusi querynya
+                  $get_jumlah = $sql2->fetch();
+
+                  $jumlah_page = ceil($get_jumlah['jumlah'] / $limit); // Hitung jumlah halamannya
+                  $jumlah_number = 3; // Tentukan jumlah link number sebelum dan sesudah page yang aktif
+                  $start_number = ($page > $jumlah_number)? $page - $jumlah_number : 1; // Untuk awal link number
+                  $end_number = ($page < ($jumlah_page - $jumlah_number))? $page + $jumlah_number : $jumlah_page; // Untuk akhir link number
+
+                  for($i = $start_number; $i <= $end_number; $i++){
+                    $link_active = ($page == $i)? ' class="active"' : '';
+                  ?>
+                    <li<?php echo $link_active; ?>><a href="training-naive-bayes.php?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                  <?php
+                  }
+                  ?>
+
+                  <!-- LINK NEXT AND LAST -->
+                  <?php
+                  // Jika page sama dengan jumlah page, maka disable link NEXT nya
+                  // Artinya page tersebut adalah page terakhir
+                  if($page == $jumlah_page){ // Jika page terakhir
+                  ?>
+                    <li class="disabled"><a href="#">&raquo;</a></li>
+                    <li class="disabled"><a href="#">Last</a></li>
+                  <?php
+                  }else{ // Jika Bukan page terakhir
+                    $link_next = ($page < $jumlah_page)? $page + 1 : $jumlah_page;
+                  ?>
+                    <li><a href="training-naive-bayes.php?page=<?php echo $link_next; ?>">&raquo;</a></li>
+                    <li><a href="training-naive-bayes.php?page=<?php echo $jumlah_page; ?>">Last</a></li>
+                  <?php
+                  }
+                  ?>
+                </ul>
+              </div>
+            </div>
+          </div>
           <?php endif; ?>
         </div>
       </div>

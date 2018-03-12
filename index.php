@@ -1,6 +1,7 @@
 <?php
-include_once 'function/f_tampildata.php';
-include_once 'crawling.php';
+// include_once 'function/f_tampildata.php';
+// include_once 'model/model_index.php';
+// include_once 'crawling.php';
 ?>
 
 <!DOCTYPE html>
@@ -9,10 +10,10 @@ include_once 'crawling.php';
 	<head>
 		<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Analisis Ecommerce</title>
+		<title>Analisis Sentimen Kota</title>
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/css/style.css">
-		<link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+		<!-- <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet"> -->
 		<script src="assets/js/jquery-3.2.1.min.js" charset="utf-8"></script>
 		<script src="assets/js/bootstrap.min.js" charset="utf-8"></script>
 		<script src="assets/js/zingchart.min.js" charset="utf-8"></script>
@@ -45,21 +46,21 @@ include_once 'crawling.php';
 			        <span class="icon-bar"></span>
 			        <span class="icon-bar"></span>
 			      </button>
-						<a class="navbar-brand" href="index.php">Analisis E-Commerce</a>
+						<a class="navbar-brand" href="index.php">Analisis Kota</a>
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="http://localhost/ansen-ecommerce/">Beranda</a></li>
-							<li><a href="http://localhost/ansen-ecommerce/proses-crawling.php">Proses</a></li>
-							<li><a href="http://localhost/ansen-ecommerce/visualisasi.php">Visualisasi</a></li>
-							<li><a href="http://localhost/ansen-ecommerce/tentang-kami.php">Tentang Kami</a></li>
+							<li><a href="http://localhost/ansen-kota/">Beranda</a></li>
+							<li><a href="http://localhost/ansen-kota/proses-crawling.php">Proses</a></li>
+							<li><a href="http://localhost/ansen-kota/visualisasi.php">Visualisasi</a></li>
+							<li><a href="http://localhost/ansen-kota/tentang-kami.php">Tentang Kami</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-center judul">
-					<h1>ANALISIS SENTIMEN MASYARAKAT<br>TERHADAP ECOMMERCE</h1>
+					<h1>ANALISIS SENTIMEN MASYARAKAT<br>TERHADAP KOTA DI INDONESIA</h1>
 					<form class="" action="" method="get">
 						<div id="custom-search-input">
               <div class="input-group col-md-12">
