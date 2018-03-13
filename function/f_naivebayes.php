@@ -338,8 +338,8 @@ class Naive_bayes extends Koneksi {
 	// 	echo "Akurasi : ".$akurasi;
 	// }
 
-	public function akurasi($threshold, $time)	{
-		$this->con->query("TRUNCATE TABLE `data_akurasi`");
+	public function akurasi($threshold, $time, $akurasi_akhir)	{
+		// $this->con->query("TRUNCATE TABLE `data_akurasi`");
 		$true_positif = 0;
 		$true_negatif = 0;
 		$false_positif = 0;
@@ -374,7 +374,13 @@ class Naive_bayes extends Koneksi {
 		echo "False Negatif : ".$false_negatif;
 		echo "<br>";
 		echo "Akurasi : ".$akurasi;
-		$query_simpan = $this->con->query("INSERT INTO `data_akurasi` (`threshold`, `true_positif`, `true_negatif`, `false_positif`, `false_negatif`, `akurasi`, `waktu`) VALUES ($threshold, $true_positif, $true_negatif, $false_positif, $false_negatif, $akurasi, $time)");
+		if ($akurasi_akhir == 0) {
+			$query_update = $this->con->query("UPDATE `data_akurasi` SET `true_positif`=$true_positif, `true_negatif`=$true_negatif, `false_positif`=$false_positif, `false_negatif`=$false_negatif, `akurasi`=$akurasi, `waktu`=$time WHERE `threshold`= $threshold");
+		} elseif ($akurasi_akhir > 0) {
+			$query_simpan = $this->con->query("INSERT INTO `data_akurasi` (`threshold`, `true_positif`, `true_negatif`, `false_positif`, `false_negatif`, `akurasi`, `waktu`) VALUES ($threshold, $true_positif, $true_negatif, $false_positif, $false_negatif, $akurasi, $time)");
+		} else {
+			echo "salah";
+		}
 	}
 
 

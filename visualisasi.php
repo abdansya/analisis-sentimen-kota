@@ -14,31 +14,7 @@
     <script src="assets/js/jquery-3.2.1.min.js" charset="utf-8"></script>
     <script src="assets/js/bootstrap.min.js" charset="utf-8"></script>
     <script src="assets/js/zingchart.min.js" charset="utf-8"></script>
-    <script src="assets/js/ansenchart.js" charset="utf-8"></script>
-    <script type="text/javascript">
-			var tanggal = <?php echo $tanggal; ?>;
-			var lazada_p = <?php echo $datalp; ?>;
-			var lazada_n = <?php echo $dataln; ?>;
-			var bukalapak_p = <?php echo $databp; ?>;
-			var bukalapak_n = <?php echo $databn; ?>;
-			var tokopedia_p = <?php echo $datatp; ?>;
-			var tokopedia_n = <?php echo $datatn; ?>;
-
-			var persenlp = <?php echo $persenlp; ?>;
-			var persenln = <?php echo $persenln; ?>;
-			var persenbp = <?php echo $persenbp; ?>;
-			var persenbn = <?php echo $persenbn; ?>;
-			var persentp = <?php echo $persentp; ?>;
-			var persentn = <?php echo $persentn; ?>;
-
-      // Data akurasi
-      var threshold = <?php echo "[".$threshold_."]"; ?>;
-      var waktu = <?php echo "[".$waktu_."]"; ?>;
-      var akurasi = <?php echo "[".$akurasi_."]"; ?>;
-
-      var judulGrafik = "<?php echo $judul;?>";
-
-		</script>
+    
   </head>
   <body>
     <!-- Header -->
@@ -110,10 +86,11 @@
             </div>
           </div>
           <div id="grafikArea" height="350px"></div>
-          <div id="grafikPie" height="150px"></div>
-          <div id="grafikAkurasi" height="350px"></div>
+          <!-- <div id="grafikPie" height="150px"></div> -->
+          <!-- <div id="grafikAkurasi" height="350px"></div> -->
         </div>
       </div>
     </main>
+    <script src="assets/js/visualchart.js" charset="utf-8"></script>
   </body>
 </html>

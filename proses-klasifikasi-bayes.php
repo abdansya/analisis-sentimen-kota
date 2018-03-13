@@ -101,6 +101,8 @@ $data = data_bayes_testing();
                 $sentimen = 'Positif';
               } else if ($row['sentimen'] == 'N'){
                 $sentimen = 'Negatif';
+              } else {
+                $sentimen = '';
               }
             ?>
 
