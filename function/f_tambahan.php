@@ -144,7 +144,7 @@ function update_data_training($field, $data, $rownum) {
 function pilih_kota()
 {
 	GLOBAL $con;
-	$query = "SELECT * FROM `tb_kota`";
+	$query = "SELECT * FROM `tb_kota` WHERE `provinsi` = 'Jawa Timur'";
 	$hasil = mysqli_query($con, $query) or die(mysql_error());
 	return $hasil;
 }
@@ -156,6 +156,7 @@ function pilih_jenis_sentimen()
 	$hasil = mysqli_query($con, $query) or die(mysql_error());
 	return $hasil;
 }
+
 
 // pemisah_kata();
 // frekuensi_kata();

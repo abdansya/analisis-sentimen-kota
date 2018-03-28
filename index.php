@@ -2,6 +2,7 @@
 // include_once 'function/f_tampildata.php';
 // include_once 'model/model_index.php';
 // include_once 'crawling.php';
+include_once 'model/model_visual.php';
 ?>
 
 <!DOCTYPE html>
@@ -17,23 +18,7 @@
 		<script src="assets/js/jquery-3.2.1.min.js" charset="utf-8"></script>
 		<script src="assets/js/bootstrap.min.js" charset="utf-8"></script>
 		<script src="assets/js/zingchart.min.js" charset="utf-8"></script>
-		<script src="assets/js/ansenchart.js" charset="utf-8"></script>
-		<script type="text/javascript">
-			var tanggal = <?php echo $tanggal; ?>;
-			var lazada_p = <?php echo $datalp; ?>;
-			var lazada_n = <?php echo $dataln; ?>;
-			var bukalapak_p = <?php echo $databp; ?>;
-			var bukalapak_n = <?php echo $databn; ?>;
-			var tokopedia_p = <?php echo $datatp; ?>;
-			var tokopedia_n = <?php echo $datatn; ?>;
-
-			var persenlp = <?php echo $persenlp; ?>;
-			var persenln = <?php echo $persenln; ?>;
-			var persenbp = <?php echo $persenbp; ?>;
-			var persenbn = <?php echo $persenbn; ?>;
-			var persentp = <?php echo $persentp; ?>;
-			var persentn = <?php echo $persentn; ?>;
-		</script>
+		<!-- <script src="assets/js/ansenchart.js" charset="utf-8"></script>			 -->
 	</head>
 	<body>
 		<!-- Header -->
@@ -78,40 +63,63 @@
 		</div>
 
 		<!-- Section 1 -->
-		<div class="container-fluid text-center bg-2">
-			<div class="row">
-				<div class="col-md-3">
-				</div>
-				<div class="col-md-2">
-					<img src="assets/img/logo-lazada.png" alt="lazada">
-				</div>
-				<div class="col-md-2">
-					<img src="assets/img/logo-bukalapak.png" alt="bukalapak">
-				</div>
-				<div class="col-md-2">
-					<img src="assets/img/logo-tokopedia.png" alt="tokopedia">
-				</div>
-				<div class="col-md-3">
+
+		<div class="container-fluid bg-2">
+			<div class="col-md-12">
+				<div class="carousel slide" id="myCarousel">
+				  <div class="carousel-inner">
+				    <div class="item active">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-batu.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-blitar.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-kediri.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-madiun.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-malang.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-mojokerto.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-pasuruan.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-probolinggo.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				    <div class="item">
+				      <div class="col-xs-3"><a href="#"><img src="assets/img/logo-kota/kota-surabaya.png" class="img-responsive tumb-kota"></a></div>
+				    </div>
+				  </div>
+				  <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+				  <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
 				</div>
 			</div>
 		</div>
 
 		<!-- Section 2 -->
-		<div class="container-fluid text-center bg-3">
-			<!-- <img src="assets/img/chart.png" alt="Chart" class="gambar"> -->
-			<div id='myChart'></div>
+		<div class="container-fluid text-center bg-3" align="center">
+			<div><h3 align="center"><?php echo $data->getJudul(); ?></h3></div>
+			<div id='grafikArea' style="margin: 0 auto; width: 80%;"></div>
+			<div style=""></div>
 		</div>
 
 		<!-- Section 3 -->
 		<div class="container-fluid text-center bg-4">
 			<!-- <img src="assets/img/chart-pie.jpg" alt="Chart" class="gambar"> -->
-			<div id='myChartPie'></div>
+			<div id='grafikPie'></div>
 		</div>
 
 		<!-- Footer -->
 		<footer class="container-fluid text-center footer">
 			<div>  	&copy; abdan syakuro [ ] dengan <span>❤</span> di Malang </div>
 		</footer>
-
+	<script src="assets/js/custom.js" charset="utf-8"></script>
+	<script src="assets/js/visualchart.js" charset="utf-8"></script>
 	</body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-  // include_once 'model/model_visualisasi.php';
+  include_once 'model/model_visual.php';
 ?>
 
 <html>
@@ -73,24 +73,68 @@
           <hr>
           <div class="row pilihan-view">
             <h5>Tampilkan data</h5>
-            <div class="col-md-2">
-              <form class="" action="" method="post">
-                <select id="pilTampilan" name="pilihanvisual" class="form-control" onchange="this.form.submit();">
-                  <option value="">Pilihan</option>
-                  <option value="pekan">Per pekan</option>
-                  <option value="bulan">Per bulan</option>
-                  <option value="6bulan">Per 6 bulan</option>
-                  <option value="12bulan">Per 12 bulan</option>
-                </select>
+            <div class="col-md-6">
+              <form class="form-inline" action="" method="get">
+                <div class="form-group">
+                  <select id="selectKota" name="kota" class="form-control">
+                    <option value="">Pilih Kota</option>
+                    <?php
+                    include_once 'function/f_tambahan.php';
+                    $kota = pilih_kota();
+                    while ($row = mysqli_fetch_assoc($kota)) {
+                    ?>
+                    <option class="pilih_kota" value="<?php echo $row['id'] ?>"><?php echo $row['kota'] ?></option>
+                    <?php
+                    } ?>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <select id="pilRentang" name="rentang" class="form-control"">
+                    <option value="">Pilihan</option>
+                    <option value="1pekan">Per pekan</option>
+                    <option value="1bulan">Per bulan</option>
+                    <option value="6bulan">Per 6 bulan</option>
+                    <option value="12bulan">Per 12 bulan</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-info form-control"><i class="fa fa-search"></i></button>
+                </div>
               </form>
             </div>
           </div>
+          <div><h3 align="center"><?php echo $data->getJudul(); ?></h3></div>
           <div id="grafikArea" height="350px"></div>
-          <!-- <div id="grafikPie" height="150px"></div> -->
-          <!-- <div id="grafikAkurasi" height="350px"></div> -->
+          <hr>
+          <div id="grafikPie" height="150px"></div>
+          <hr>
+          <div id="grafikAkurasi" height="350px"></div>
         </div>
       </div>
     </main>
     <script src="assets/js/visualchart.js" charset="utf-8"></script>
   </body>
+  <script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+      for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) {
+          return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+      }
+    };
+    var kota = getUrlParameter('kota');
+    var rentang = getUrlParameter('rentang');
+    if (kota) {
+      $("[value="+kota+"]").attr('selected','true');
+    }
+    if (rentang) {
+      $("[value="+rentang+"]").attr('selected','true');
+    }
+  </script>
 </html>

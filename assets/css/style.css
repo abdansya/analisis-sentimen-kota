@@ -193,11 +193,25 @@ a.navbar-brand {
 }
 
 #grafikArea{
-  margin-bottom: 50px;
+  /*margin-bottom: 50px;*/
+  width: 640px;
+  margin: 0 auto;
 }
 
 
 .tentang-kami{
   height: 100vh;
   margin: 50px;
+}
+
+
+/*Carousel Logo Kota*/
+/*.carousel-inner {padding-left: 7%;}*/
+.carousel-inner .active.left { left: -25%; }
+.carousel-inner .next        { left:  25%; }
+.carousel-inner .prev    { left: -25%; }
+.carousel-control        { width:  4%; }
+.carousel-control.left,.carousel-control.right {margin-left:15px;background-image:none;}
+.tumb-kota {
+  max-width: 39%;
 }

@@ -58,15 +58,7 @@ class Data_testing extends Koneksi {
       $this->sentimen_tokopedia_p["$tampil_tanggal_crawling"] = $jumlah_positif3;
       $this->sentimen_tokopedia_n["$tampil_tanggal_crawling"] = $jumlah_negatif3;
     }
-    // $data_sentimen = ['lazadaidPositif'=>$sentimen_lazada_p, 'lazadaidNegatif'=>$sentimen_lazada_n, 'bukalapakPositif'=>$sentimen_bukalapak_p, 'bukalapakNegatif'=>$sentimen_bukalapak_n, 'tokopediaPositif'=>$sentimen_tokopedia_p, 'tokopediaNegatif'=>$sentimen_tokopedia_n];
-    // print_r($data_sentimen);
-    // echo json_encode($data_sentimen, JSON_PRETTY_PRINT);
-    // print_r($this->sentimen_lazada_p);echo "<br>";
-    // print_r($this->sentimen_lazada_n);echo "<br>";
-    // print_r($this->sentimen_bukalapak_p);echo "<br>";
-    // print_r($this->sentimen_bukalapak_n);echo "<br>";
-    // print_r($this->sentimen_tokopedia_p);echo "<br>";
-    // print_r($this->sentimen_tokopedia_n);echo "<br>";
+    
   }
 
   public function set_data_testing_pie() {
