@@ -25,10 +25,10 @@
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
 						<ul class="nav navbar-nav navbar-right">
-              <li><a href="http://localhost/ansen-kota/">Beranda</a></li>
-							<li><a href="http://localhost/ansen-kota/proses-crawling.php">Proses</a></li>
-							<li><a href="http://localhost/ansen-kota/visualisasi.php">Visualisasi</a></li>
-							<li><a href="http://localhost/ansen-kota/tentang-kami.php">Tentang Kami</a></li>
+              <li><a href="index.php">Beranda</a></li>
+              <li><a href="proses-crawling.php">Proses</a></li>
+              <li><a href="visualisasi.php">Visualisasi</a></li>
+              <li><a href="tentang-kami.php">Tentang Kami</a></li>
 						</ul>
 					</div>
 				</div>

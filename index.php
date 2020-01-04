@@ -1,7 +1,4 @@
 <?php
-// include_once 'function/f_tampildata.php';
-// include_once 'model/model_index.php';
-// include_once 'crawling.php';
 include_once 'model/model_visual.php';
 ?>
 
@@ -35,10 +32,10 @@ include_once 'model/model_visual.php';
 					</div>
 					<div class="collapse navbar-collapse" id="myNavbar">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="http://localhost/ansen-kota/">Beranda</a></li>
-							<li><a href="http://localhost/ansen-kota/proses-crawling.php">Proses</a></li>
-							<li><a href="http://localhost/ansen-kota/visualisasi.php">Visualisasi</a></li>
-							<li><a href="http://localhost/ansen-kota/tentang-kami.php">Tentang Kami</a></li>
+							<li><a href="index.php">Beranda</a></li>
+							<li><a href="proses-crawling.php">Proses</a></li>
+							<li><a href="visualisasi.php">Visualisasi</a></li>
+							<li><a href="tentang-kami.php">Tentang Kami</a></li>
 						</ul>
 					</div>
 				</div>
@@ -46,7 +43,7 @@ include_once 'model/model_visual.php';
 			<div class="row">
 				<div class="col-md-12 text-center judul">
 					<h1>ANALISIS SENTIMEN MASYARAKAT<br>TERHADAP KOTA DI INDONESIA</h1>
-					<form class="" action="" method="get">
+					<!-- <form class="" action="" method="get">
 						<div id="custom-search-input">
               <div class="input-group col-md-12">
                 <input type="text" class="form-control input-lg" placeholder="Cari" name="katakunci">
@@ -57,7 +54,7 @@ include_once 'model/model_visual.php';
                 </span>
               </div>
             </div>
-					</form>
+					</form> -->
 				</div>
 			</div>
 		</div>
@@ -105,14 +102,14 @@ include_once 'model/model_visual.php';
 		<!-- Section 2 -->
 		<div class="container-fluid text-center bg-3" align="center">
 			<div><h3 align="center"><?php echo $data->getJudul(); ?></h3></div>
-			<div id='grafikArea' style="margin: 0 auto; width: 80%;"></div>
+			<div id='grafikAreaBayes' style="margin: 0 auto; width: 84%;"></div>
 			<div style=""></div>
 		</div>
 
 		<!-- Section 3 -->
 		<div class="container-fluid text-center bg-4">
 			<!-- <img src="assets/img/chart-pie.jpg" alt="Chart" class="gambar"> -->
-			<div id='grafikPie'></div>
+			<div id='grafikPieBayes'></div>
 		</div>
 
 		<!-- Footer -->

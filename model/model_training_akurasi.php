@@ -2,6 +2,7 @@
 require_once 'function/f_naivebayes.php';
 require_once 'function/koneksi_procedural.php';
 require_once 'function/koneksi.php';
+require_once 'function/f_knn.php';
 
 $o_koneksi = new Koneksi();
 if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'akurasi' ) {
@@ -45,7 +46,24 @@ if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'akurasi' ) {
     $batas -= 500;
     $akurasi_akhir++;
   }
-  header('Location: http://localhost/ansen-kota/training-akurasi.php');
+  header('Location: training-akurasi.php');
+} else if (isset($_GET['btsubmit']) && $_GET['btsubmit'] == 'akurasi_knn') {
+  $time = microtime();
+  $time = explode(' ', $time);
+  $time = $time[1] + $time[0];
+  $start = $time;
+
+  $knn = new Knn();
+  $knn->klasifikasi_sentimen_knn_training_tes();
+  
+  $time = microtime();
+  $time = explode(' ', $time);
+  $time = $time[1] + $time[0];
+  $finish = $time;
+  $total_time = round(($finish - $start), 4);
+  
+  $knn->akurasi($total_time);
+  header('Location: training-akurasi-knn.php');
 }
 
 function data_akurasi() {
@@ -53,6 +71,13 @@ function data_akurasi() {
 	$query = "SELECT * FROM `data_akurasi`";
 	$hasil = mysqli_query($con, $query);
 	return $hasil;
+}
+
+function data_akurasi_knn() {
+  GLOBAL $con;
+  $query = "SELECT * FROM `data_akurasi_knn`";
+  $hasil = mysqli_query($con, $query);
+  return $hasil;
 }
 
 ?>

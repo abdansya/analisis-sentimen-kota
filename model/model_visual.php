@@ -94,7 +94,7 @@ class DataVisualisasi extends Koneksi {
     return json_encode($response);
   }
 
-  public function getJsonKategoriKota($id_kota) {
+  public function getJsonKategoriKota($id_kota, $metode = 'sentimen') {
     header("Content-type:application/json");
     $response = [];
     $response['data'] = [];
@@ -117,10 +117,10 @@ class DataVisualisasi extends Koneksi {
         $tanggal_crawling = date('Y-m-d', strtotime('-'.$i.' days', strtotime( $last_date )));
         $tampil_tanggal_crawling = date('d M Y', strtotime('-'.$i.' days', strtotime( $last_date )));
 
-        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `sentimen` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `".$metode."` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_positif = $query_positif->fetch_row();
         $jumlah_positif = $row_positif[0];
-        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `sentimen` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `".$metode."` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_negatif = $query_negatif->fetch_row();
         $jumlah_negatif = $row_negatif[0];
 
@@ -137,7 +137,7 @@ class DataVisualisasi extends Koneksi {
     return json_encode($response);
   }
 
-  public function getJsonKategoriKota_1bulan($id_kota) {
+  public function getJsonKategoriKota_1bulan($id_kota, $metode = 'sentimen') {
     header("Content-type:application/json");
     $response = [];
     $response['data'] = [];
@@ -160,10 +160,10 @@ class DataVisualisasi extends Koneksi {
         $tanggal_crawling = date('Y-m-d', strtotime('-'.$i.' days', strtotime( $last_date )));
         $tampil_tanggal_crawling = date('d M Y', strtotime('-'.$i.' days', strtotime( $last_date )));
 
-        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `sentimen` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `".$metode."` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_positif = $query_positif->fetch_row();
         $jumlah_positif = $row_positif[0];
-        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `sentimen` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE `tanggal` = '".$tanggal_crawling."' AND `".$metode."` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_negatif = $query_negatif->fetch_row();
         $jumlah_negatif = $row_negatif[0];
 
@@ -180,7 +180,7 @@ class DataVisualisasi extends Koneksi {
     return json_encode($response);
   }
 
-  public function getJsonKategoriKota_6bulan($id_kota) {
+  public function getJsonKategoriKota_6bulan($id_kota, $metode = 'sentimen') {
     header("Content-type:application/json");
     $response = [];
     $response['data'] = [];
@@ -203,10 +203,10 @@ class DataVisualisasi extends Koneksi {
         $tanggal_crawling = date('Y-m-d', strtotime('-'.$i.' month', strtotime( $last_date )));
         $bulan_crawling = date('M Y', strtotime('-'.$i.' month', strtotime( $last_date )));
 
-        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `sentimen` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `".$metode."` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_positif = $query_positif->fetch_row();
         $jumlah_positif = $row_positif[0];
-        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `sentimen` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `".$metode."` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_negatif = $query_negatif->fetch_row();
         $jumlah_negatif = $row_negatif[0];
 
@@ -223,7 +223,7 @@ class DataVisualisasi extends Koneksi {
     return json_encode($response);
   }
 
-  public function getJsonKategoriKota_12bulan($id_kota) {
+  public function getJsonKategoriKota_12bulan($id_kota, $metode = 'sentimen') {
     header("Content-type:application/json");
     $response = [];
     $response['data'] = [];
@@ -246,10 +246,10 @@ class DataVisualisasi extends Koneksi {
         $tanggal_crawling = date('Y-m-d', strtotime('-'.$i.' month', strtotime( $last_date )));
         $bulan_crawling = date('M Y', strtotime('-'.$i.' month', strtotime( $last_date )));
 
-        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `sentimen` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_positif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `".$metode."` = 'P' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_positif = $query_positif->fetch_row();
         $jumlah_positif = $row_positif[0];
-        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `sentimen` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
+        $query_negatif = $this->con->query("SELECT count(id_tes) FROM data_testing WHERE MONTH(`tanggal`) = MONTH('".$tanggal_crawling."') AND `".$metode."` = 'N' AND `id_kategori` = $id_kategori AND `id_kota` = $id_kota");
         $row_negatif = $query_negatif->fetch_row();
         $jumlah_negatif = $row_negatif[0];
 
@@ -283,6 +283,24 @@ class DataVisualisasi extends Koneksi {
     return json_encode($response);
   }
 
+  public function getJsonAkurasiKnn() {
+    header("Content-type:application/json");
+    $response = [];
+    $response['error'] = [];
+    $response['waktu'] = [];
+    $response['akurasi'] = [];
+    
+    $index = 0;
+    $query_akurasi = $this->con->query("SELECT * FROM `data_akurasi_knn` ORDER BY `threshold` DESC");
+    while ($hasil_akurasi = $query_akurasi->fetch_array()) {
+      $error = 100 - round($hasil_akurasi['akurasi'], 2);
+      array_push($response['error'], $error);
+      array_push($response['waktu'], round($hasil_akurasi['waktu'], 2));
+      array_push($response['akurasi'], round($hasil_akurasi['akurasi'], 2));
+    }
+    return json_encode($response);
+  }
+
   public function setTampilan($kota, $rentang)
   {
     $this->con->query("UPDATE `tb_tampil_json` SET `kota`='".$kota."', `rentang`='".$rentang."' WHERE `id`=1");
@@ -304,6 +322,26 @@ class DataVisualisasi extends Koneksi {
       return $this->getJsonKategoriKota_6bulan($kota);
     } elseif ($rentang == '12bulan') {
       return $this->getJsonKategoriKota_12bulan($kota);
+    }
+    
+  }
+
+  public function getTampilanKnn()
+  {
+    $query = $this->con->query("SELECT * FROM `tb_tampil_json`");
+    while ($hasil = $query->fetch_array()) {
+      $kota = $hasil['kota'];
+      $rentang = $hasil['rentang'];
+    }
+
+    if ($rentang == '1pekan') {
+      return $this->getJsonKategoriKota($kota, 'sentimen_knn');
+    } elseif ($rentang == '1bulan') {
+      return $this->getJsonKategoriKota_1bulan($kota, 'sentimen_knn');
+    } elseif ($rentang == '6bulan') {
+      return $this->getJsonKategoriKota_6bulan($kota, 'sentimen_knn');
+    } elseif ($rentang == '12bulan') {
+      return $this->getJsonKategoriKota_12bulan($kota, 'sentimen_knn');
     }
     
   }

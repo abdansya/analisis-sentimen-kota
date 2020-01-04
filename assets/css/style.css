@@ -85,7 +85,7 @@ a.navbar-brand {
 }
 
 .judul h1 {
-  padding-top: 20px;
+  padding-top: 60px;
   font-size: 56px;
   font-weight: bold;
   font-family: 'Play', sans-serif;
@@ -121,7 +121,7 @@ a.navbar-brand {
 .bg-4 {
   background-color: #e8e8ea;
   padding-top: 60px;
-  padding-bottom: 60px;
+  padding-bottom: 40px;
 }
 
 .gambar {
@@ -143,11 +143,12 @@ a.navbar-brand {
 /*Admin template*/
 .menu-kiri{
   margin: 0;
-  padding: 0;
+  padding: 0 0 20px 0;
   background-color: #055b7e;
   position: fixed;
   top: 80px;
   height: 90vh;
+  overflow-y: auto;
 }
 
 .menu-kiri ul{
@@ -194,14 +195,22 @@ a.navbar-brand {
 
 #grafikArea{
   /*margin-bottom: 50px;*/
-  width: 640px;
+  width: 100%;
   margin: 0 auto;
 }
 
+.main-proses {
+  overflow-x: hidden;
+}
 
 .tentang-kami{
   height: 100vh;
   margin: 50px;
+}
+
+hr{
+  border-width: 1px;
+  border-color: #bad4ff;
 }
 
 
